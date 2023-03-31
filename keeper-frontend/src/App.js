@@ -8,7 +8,7 @@ import { logIn } from "./features/user/userSlice";
 import { auth } from "./firebase";
 import { Login } from "./pages";
 import "./App.css";
-import { fetchAllNotes } from "./utils/fetchAllNotes";
+import { fetchAllNotes } from "./utils/notes/fetchAllNotes";
 import { setNotes } from "./features/notes/notesSlice";
 import { fetchAllLabels } from "./utils/labels/fetchAllLabels";
 import { setLabels } from "./features/labels/labelSlice";

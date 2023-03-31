@@ -4,9 +4,9 @@ import { AddCircleRounded } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { addNote, setNotes } from "../features/notes/notesSlice";
 import { userInfo } from "../features/user/userSlice";
-import { createNote } from "../utils/createNote";
-import { fetchAllNotes } from "../utils/fetchAllNotes";
-import { createNoteByLabel } from "../utils/createNoteByLabel";
+import { createNote } from "../utils/notes/createNote";
+import { fetchAllNotes } from "../utils/notes/fetchAllNotes";
+import { createNoteByLabel } from "../utils/notes/createNoteByLabel";
 
 const Prompt = ({ labelDetail, labelId }) => {
   const dispatch = useDispatch();
@@ -76,7 +76,7 @@ const Prompt = ({ labelDetail, labelId }) => {
   };
 
   return (
-    <Box className="prompt min-w-[250px] sm:w-[480px] max-w-[500px] rounded-md h-[200px] px-6 py-3 relative">
+    <Box className="prompt   sm:w-[480px] max-w-[500px] rounded-md h-[200px] px-6 py-3 relative">
       {labelDetail ? (
         <IconButton
           sx={{

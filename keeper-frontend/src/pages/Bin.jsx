@@ -15,7 +15,7 @@ import { emptyBin, notesInfo } from "../features/notes/notesSlice";
 import { Delete } from "@mui/icons-material";
 import { useState } from "react";
 import { userInfo } from "../features/user/userSlice";
-import { deleteAllNotes } from "../utils/deleteAllNotes";
+import { deleteAllNotes } from "../utils/notes/deleteAllNotes";
 
 const Bin = () => {
   const notes = useSelector(notesInfo);

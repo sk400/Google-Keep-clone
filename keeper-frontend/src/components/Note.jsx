@@ -25,7 +25,7 @@ import {
   unArchiveNote,
   unPinNote,
 } from "../features/notes/notesSlice";
-import { updateNote } from "../utils/updateNote";
+import { updateNote } from "../utils/notes/updateNote";
 import { userInfo } from "../features/user/userSlice";
 import { labelsInfo } from "../features/labels/labelSlice";
 

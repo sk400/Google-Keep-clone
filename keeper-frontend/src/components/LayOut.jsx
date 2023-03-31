@@ -16,14 +16,14 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import {
   Avatar,
-  Button,
+  Drawer,
   Input,
   Modal,
   Paper,
   Stack,
   Tooltip,
 } from "@mui/material";
-import { sidebarEdit, sidebarItems, sidebarLevel } from "../utils/data";
+import { sidebarEdit, sidebarItems } from "../utils/data";
 import { Link, Route, Routes } from "react-router-dom";
 import { ArchiveNotes, Bin, HomePage, LabelNotes } from "../pages";
 import { useDispatch, useSelector } from "react-redux";
@@ -77,14 +77,13 @@ const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
+  width: "100%",
+
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
-    marginLeft: drawerWidth,
-    width: "100%",
-
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -92,7 +91,7 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const Drawer = styled(MuiDrawer, {
+const MdDrawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   width: drawerWidth,
@@ -109,6 +108,12 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
+const XsDrawer = styled(Drawer)(({ theme }) => ({
+  "& .MuiDrawer-paper": {
+    width: theme.spacing(30), // Set the temporary drawer width here
+  },
+}));
+
 export default function LayOut() {
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -119,7 +124,7 @@ export default function LayOut() {
   const [labelId, setLabelId] = useState(null);
   const labels = useSelector(labelsInfo);
   const dispatch = useDispatch();
-  // console.log(labels);
+  const [openXsDrawer, setOpenXsDrawer] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -181,6 +186,20 @@ export default function LayOut() {
         }}
       >
         <Toolbar>
+          {/* Xs, sm screen menu button */}
+          <IconButton
+            color="black"
+            aria-label="open drawer"
+            onClick={() => setOpenXsDrawer(!openXsDrawer)}
+            edge="start"
+            sx={{
+              marginRight: 1,
+              display: { xs: "block", sm: "block", md: "none" },
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+          {/* Md screen menu button */}
           <IconButton
             color="black"
             aria-label="open drawer"
@@ -188,10 +207,12 @@ export default function LayOut() {
             edge="start"
             sx={{
               marginRight: 1,
+              display: { xs: "none", sm: "none", md: "block" },
             }}
           >
             <MenuIcon />
           </IconButton>
+          {/* Appbar icon and profile photo stack */}
           <Stack
             direction="row"
             alignItems="center"
@@ -214,7 +235,134 @@ export default function LayOut() {
           </Stack>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+
+      {/* xtra small and small screen drawer */}
+
+      <XsDrawer
+        variant="temporary"
+        open={openXsDrawer}
+        onClose={() => setOpenXsDrawer(false)}
+        sx={{
+          display: { xs: "block", sm: "block", md: "none" },
+        }}
+        anchor="left"
+      >
+        {" "}
+        <DrawerHeader />
+        <Divider />
+        <List>
+          {sidebarItems.map((item, index) => (
+            <Link
+              key={index}
+              to={item.path}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <ListItem
+                disablePadding
+                sx={{
+                  display: "block",
+                  "&:hover": {
+                    backgroundColor: "#feefc3",
+                  },
+                }}
+                onClick={() => setOpenXsDrawer(false)}
+              >
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: 3,
+                    }}
+                  >
+                    {item?.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item?.name} />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          ))}
+          {/* edit label */}
+          <ListItem
+            disablePadding
+            sx={{
+              display: "block",
+              "&:hover": {
+                backgroundColor: "#feefc3",
+              },
+            }}
+          >
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+
+                px: 2.5,
+              }}
+              onClick={() => {
+                setOpenModal(!openModal);
+                setOpenXsDrawer(false);
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: 3,
+                  justifyContent: "center",
+                }}
+              >
+                {sidebarEdit?.icon}
+              </ListItemIcon>
+              <ListItemText primary={sidebarEdit?.name} />
+            </ListItemButton>
+          </ListItem>
+
+          {labels?.length !== 0 &&
+            labels?.map((label) => (
+              <Link
+                to={`/label/${label?._id}`}
+                style={{ textDecoration: "none", color: "black" }}
+                key={label?._id}
+              >
+                <ListItem
+                  disablePadding
+                  sx={{
+                    display: "block",
+                    "&:hover": {
+                      backgroundColor: "#feefc3",
+                    },
+                  }}
+                  onClick={() => setOpenXsDrawer(false)}
+                >
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: 3,
+                      }}
+                    >
+                      <LabelOutlined />
+                    </ListItemIcon>
+                    <ListItemText primary={label?.name} />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            ))}
+        </List>
+      </XsDrawer>
+
+      {/* Md screen drawer */}
+
+      <MdDrawer variant="permanent" open={open}>
         <DrawerHeader />
 
         <Divider />
@@ -230,7 +378,7 @@ export default function LayOut() {
                 sx={{
                   display: "block",
                   "&:hover": {
-                    backgroundColor: "#F0EB8D",
+                    backgroundColor: "#feefc3",
                   },
                 }}
               >
@@ -266,7 +414,7 @@ export default function LayOut() {
             sx={{
               display: "block",
               "&:hover": {
-                backgroundColor: "#F0EB8D",
+                backgroundColor: "#feefc3",
               },
             }}
           >
@@ -308,7 +456,7 @@ export default function LayOut() {
                   sx={{
                     display: "block",
                     "&:hover": {
-                      backgroundColor: "#F0EB8D",
+                      backgroundColor: "#feefc3",
                     },
                   }}
                 >
@@ -339,7 +487,9 @@ export default function LayOut() {
               </Link>
             ))}
         </List>
-      </Drawer>
+      </MdDrawer>
+
+      {/* App routes */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <Routes>
@@ -349,6 +499,9 @@ export default function LayOut() {
           <Route path="/label/:labelId" element={<LabelNotes />} />
         </Routes>
       </Box>
+
+      {/* Create or edit label modal  */}
+
       <Modal
         open={openModal}
         onClose={() => setOpenModal(false)}
@@ -426,7 +579,7 @@ export default function LayOut() {
                 </ListItem>
               ))}
             </List>
-
+            {/* Rename label modal */}
             <Modal
               open={openEditModal}
               onClose={() => setOpenEditModal(false)}

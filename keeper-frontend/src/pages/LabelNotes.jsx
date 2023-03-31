@@ -24,9 +24,9 @@ const LabelNotes = () => {
         alignItems: "center",
       }}
     >
-      <Box>
+      {/* <Box>
         <Prompt labelDetail labelId={labelId} />
-      </Box>
+      </Box> */}
 
       {labelNotes?.length === 0 && (
         <Typography variant="h6" color="black" textAlign="center" mt={10}>

@@ -15,7 +15,7 @@ const HomePage = () => {
   const pinnedNotes = notes?.filter((note) => note?.pinned === true);
 
   return (
-    <Box className="p-5 flex flex-col items-center  w-full   ">
+    <Box className=" sm:p-5 flex flex-col items-center  w-full   ">
       <Box>
         <Prompt />
       </Box>
