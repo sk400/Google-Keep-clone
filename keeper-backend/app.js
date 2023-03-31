@@ -2,13 +2,14 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const connectDb = require("./db");
+require("dotenv").config();
 
 const notes = require("./routes/note");
 const label = require("./routes/label");
 const port = 5000;
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: process.env.ORIGIN,
   optionsSuccessStatus: 200,
 };
 
