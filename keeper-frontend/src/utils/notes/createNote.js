@@ -5,7 +5,7 @@ import axios from "axios";
 export const createNote = async (noteData, config) => {
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/notes/add`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/notes/add`,
       JSON.stringify(noteData),
       config
     );

@@ -10,7 +10,7 @@ export const updateLabel = async (labelData, userId, labelId) => {
 
   try {
     const response = await axios.put(
-      `http://localhost:5000/api/labels/update/${labelId}`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/labels/update/${labelId}`,
       JSON.stringify(labelData),
       config
     );

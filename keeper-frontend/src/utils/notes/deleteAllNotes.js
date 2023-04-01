@@ -10,7 +10,7 @@ export const deleteAllNotes = async (userId) => {
 
   try {
     const response = await axios.delete(
-      `http://localhost:5000/api/notes/delete`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/notes/delete`,
 
       config
     );

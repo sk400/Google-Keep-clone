@@ -9,7 +9,7 @@ export const createLabel = async (labelData, userId) => {
   };
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/labels/add`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/labels/add`,
       JSON.stringify(labelData),
       config
     );

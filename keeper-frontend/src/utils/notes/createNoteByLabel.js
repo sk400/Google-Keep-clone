@@ -9,7 +9,7 @@ export const createNoteByLabel = async (noteData, userId, labelId) => {
   };
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/notes/add/${labelId}`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/notes/add/${labelId}`,
       JSON.stringify(noteData),
       config
     );

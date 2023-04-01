@@ -10,7 +10,7 @@ export const deleteLabel = async (userId, labelId) => {
 
   try {
     const response = await axios.delete(
-      `http://localhost:5000/api/labels/delete/${labelId}`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/labels/delete/${labelId}`,
 
       config
     );

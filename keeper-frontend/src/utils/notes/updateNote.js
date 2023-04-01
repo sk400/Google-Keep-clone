@@ -10,7 +10,7 @@ export const updateNote = async (noteData, userId, noteId) => {
 
   try {
     const response = await axios.put(
-      `http://localhost:5000/api/notes/update/${noteId}`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/notes/update/${noteId}`,
       JSON.stringify(noteData),
       config
     );

@@ -11,7 +11,7 @@ export const fetchAllLabels = async (id) => {
   //   console.log(id);
   try {
     const response = await axios.get(
-      `http://localhost:5000/api/labels/all`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/labels/all`,
 
       config
     );
