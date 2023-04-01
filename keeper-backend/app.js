@@ -8,13 +8,13 @@ const notes = require("./routes/note");
 const label = require("./routes/label");
 const port = 5000;
 
-const corsOptions = {
-  origin: process.env.VERCEL_URL,
-  optionsSuccessStatus: 200,
-};
+// const corsOptions = {
+//   origin: process.env.VERCEL_URL,
+//   optionsSuccessStatus: 200,
+// };
 
 connectDb();
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 app.use("/api/notes", notes);
