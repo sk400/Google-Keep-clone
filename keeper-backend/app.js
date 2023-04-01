@@ -9,7 +9,7 @@ const label = require("./routes/label");
 const port = 5000;
 
 const corsOptions = {
-  origin: process.env.ORIGIN || process.env.VERCEL_URL,
+  origin: process.env.VERCEL_URL,
   optionsSuccessStatus: 200,
 };
 
