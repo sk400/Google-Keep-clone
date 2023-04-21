@@ -18,6 +18,8 @@ import {
   Avatar,
   Drawer,
   Input,
+  Menu,
+  MenuItem,
   Modal,
   Paper,
   Stack,
@@ -42,6 +44,8 @@ import { fetchAllLabels } from "../utils/labels/fetchAllLabels";
 import { updateLabel } from "../utils/labels/updateLabel";
 import { deleteLabel } from "../utils/labels/deleteLabel";
 import Loading from "./Loading";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 const drawerWidth = 240;
 
@@ -119,6 +123,7 @@ const XsDrawer = styled(Drawer)(({ theme }) => ({
 export default function LayOut() {
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
   const user = useSelector(userInfo);
   const [openModal, setOpenModal] = useState(false);
   const [labelName, setLabelName] = useState("");
@@ -176,6 +181,20 @@ export default function LayOut() {
     getLabels(userId);
   };
 
+  const logOut = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("Signed out successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleMenuClose = () => {
+    setOpenMenu(!openMenu);
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -225,7 +244,7 @@ export default function LayOut() {
           >
             <Stack direction="row" spacing={1} alignItems="center">
               <img
-                alt=""
+                alt="logo"
                 src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png"
                 style={{
                   width: "40px",
@@ -237,7 +256,11 @@ export default function LayOut() {
             </Stack>
             <Stack direction="row" spacing={2} alignItems="center">
               {loading && <Loading />}
-              <Avatar alt={user?.name} src={user?.image} />
+              <Avatar
+                alt={user?.name}
+                src={user?.image}
+                onClick={() => setOpenMenu(true)}
+              />
             </Stack>
           </Stack>
         </Toolbar>
@@ -672,6 +695,28 @@ export default function LayOut() {
           </Paper>
         </Box>
       </Modal>
+
+      <Menu
+        open={openMenu}
+        onClose={handleMenuClose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleMenuClose();
+            logOut();
+          }}
+        >
+          Sign out
+        </MenuItem>
+      </Menu>
     </Box>
   );
 }
