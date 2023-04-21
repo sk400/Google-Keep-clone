@@ -1,0 +1,2 @@
+global state for loader
+adding loader to navbar

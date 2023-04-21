@@ -7,6 +7,7 @@ import { userInfo } from "../features/user/userSlice";
 import { createNote } from "../utils/notes/createNote";
 import { fetchAllNotes } from "../utils/notes/fetchAllNotes";
 import { createNoteByLabel } from "../utils/notes/createNoteByLabel";
+import { setLoading } from "../features/loader/loaderSlice";
 
 const Prompt = ({ labelDetail, labelId }) => {
   const dispatch = useDispatch();
@@ -15,6 +16,9 @@ const Prompt = ({ labelDetail, labelId }) => {
   const [noteData, setNoteData] = useState({
     title: "",
     content: "",
+    archived: false,
+    pinned: false,
+    deleted: false,
   });
 
   const handleChange = (e) => {
@@ -24,9 +28,11 @@ const Prompt = ({ labelDetail, labelId }) => {
   };
 
   const getNotes = async (id) => {
+    dispatch(setLoading(true));
     const data = await fetchAllNotes(id);
     const notes = await data?.notes;
     dispatch(setNotes(notes));
+    dispatch(setLoading(false));
   };
 
   const handleClick = async () => {

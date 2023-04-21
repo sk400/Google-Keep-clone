@@ -28,6 +28,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import { ArchiveNotes, Bin, HomePage, LabelNotes } from "../pages";
 import { useDispatch, useSelector } from "react-redux";
 import { userInfo } from "../features/user/userSlice";
+import { loaderState, setLoading } from "../features/loader/loaderSlice";
 import {
   Add,
   CloseOutlined,
@@ -40,6 +41,7 @@ import { labelsInfo, setLabels } from "../features/labels/labelSlice";
 import { fetchAllLabels } from "../utils/labels/fetchAllLabels";
 import { updateLabel } from "../utils/labels/updateLabel";
 import { deleteLabel } from "../utils/labels/deleteLabel";
+import Loading from "./Loading";
 
 const drawerWidth = 240;
 
@@ -125,17 +127,19 @@ export default function LayOut() {
   const labels = useSelector(labelsInfo);
   const dispatch = useDispatch();
   const [openXsDrawer, setOpenXsDrawer] = React.useState(false);
+  const loading = useSelector(loaderState);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
   };
 
   const getLabels = async (id) => {
+    dispatch(setLoading(true));
     const data = await fetchAllLabels(id);
     const labels = await data?.labels;
     dispatch(setLabels(labels));
+    dispatch(setLoading(false));
   };
-
   const handleClick = async () => {
     setLabelName("");
 
@@ -231,7 +235,10 @@ export default function LayOut() {
                 Keeper
               </Typography>
             </Stack>
-            <Avatar alt={user?.name} src={user?.image} />
+            <Stack direction="row" spacing={2} alignItems="center">
+              {loading && <Loading />}
+              <Avatar alt={user?.name} src={user?.image} />
+            </Stack>
           </Stack>
         </Toolbar>
       </AppBar>

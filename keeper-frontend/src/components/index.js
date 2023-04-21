@@ -4,3 +4,4 @@ export { default as Notes } from "./Notes";
 export { default as Prompt } from "./Prompt";
 export { default as Sidebar } from "./Sidebar";
 export { default as Navbar } from "./Navbar";
+export { default as Loading } from "./Loading";

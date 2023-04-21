@@ -4,6 +4,7 @@ import React from "react";
 import Note from "./Note";
 
 const Notes = ({ notes, message }) => {
+  // console.log(notes);
   if (notes?.length < 1) {
     return (
       <Typography variant="h6" color="black" textAlign="center">

@@ -12,21 +12,26 @@ import { fetchAllNotes } from "./utils/notes/fetchAllNotes";
 import { setNotes } from "./features/notes/notesSlice";
 import { fetchAllLabels } from "./utils/labels/fetchAllLabels";
 import { setLabels } from "./features/labels/labelSlice";
+import { setLoading } from "./features/loader/loaderSlice";
 
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const getNotes = async (id) => {
+    dispatch(setLoading(true));
     const data = await fetchAllNotes(id);
     const notes = await data?.notes;
     dispatch(setNotes(notes));
+    dispatch(setLoading(false));
   };
 
   const getLabels = async (id) => {
+    dispatch(setLoading(true));
     const data = await fetchAllLabels(id);
     const labels = await data?.labels;
     dispatch(setLabels(labels));
+    dispatch(setLoading(false));
   };
 
   useEffect(() => {
@@ -40,6 +45,7 @@ const App = () => {
         };
 
         dispatch(logIn(userData));
+
         getNotes(userData?.id);
         getLabels(userData?.id);
         navigate("/");
